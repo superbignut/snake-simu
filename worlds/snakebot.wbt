@@ -1,0 +1,586 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        0.6
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.44790770189275586 -0.021030444610754224 -0.8938324289175371 3.0021924603070573
+  position 2.5178237000733823 1.4299841093339754 4.80568546183004
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 6 5
+}
+DEF bar0 Robot {
+  translation -1.3800478897083661 0.03438231514912484 0.009586960687763279
+  rotation 0.9999958736907435 -0.0020328850543274673 0.0020297733475364023 1.565160704059871
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1.4355057646478366e-06
+        axis -1 0 0
+        anchor 0 0 -0.05
+      }
+      device [
+        PositionSensor {
+          name "sensor1"
+        }
+        RotationalMotor {
+          name "motor1"
+        }
+      ]
+      endPoint DEF bar1 Solid {
+        translation 1.5049276491652108e-08 6.679533760461557e-06 -0.10000005658492811
+        rotation -0.9997845527165631 0.020756881975376045 4.59401520242145e-08 1.4357792699868874e-06
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              position -1.0461660369594385e-06
+              axis 0 1 0
+              anchor 0 0 -0.05
+            }
+            device [
+              PositionSensor {
+                name "sensor2"
+              }
+              RotationalMotor {
+                name "motor2"
+              }
+            ]
+            endPoint DEF bar2 Solid {
+              translation 5.230830184796233e-08 0 -0.0999999999999726
+              rotation 0 -1 0 1.0460572704544332e-06
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    position 0.010597573273008535
+                    anchor 0 0 -0.05
+                  }
+                  device [
+                    RotationalMotor {
+                      name "motor3"
+                    }
+                    PositionSensor {
+                      name "sensor3"
+                    }
+                  ]
+                  endPoint DEF bar3 Solid {
+                    translation 0 0.0005298687453879042 -0.0999971923122955
+                    rotation 0.9999999999999999 0 0 0.010597573273008646
+                    children [
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          position -4.5132334069053195e-06
+                          axis 0 -1 0
+                          anchor 0 0 -0.05
+                        }
+                        device [
+                          RotationalMotor {
+                            name "motor4"
+                          }
+                          PositionSensor {
+                            name "sensor4"
+                          }
+                        ]
+                        endPoint DEF bar4 Solid {
+                          translation -2.2566167034449986e-07 0 -0.09999999999949075
+                          rotation 0 1 0 4.513256460407642e-06
+                          children [
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                position 0.002795405643556554
+                                axis -1 0 0
+                                anchor 0 0 -0.05
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "motor5"
+                                }
+                                PositionSensor {
+                                  name "sensor5"
+                                }
+                              ]
+                              endPoint DEF bar5 Solid {
+                                translation 0 -0.00013977010014358263 -0.09999980464280946
+                                rotation -0.9999999999999999 0 0 0.002795405643524726
+                                children [
+                                  HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      position -1.6342789850833915e-05
+                                      axis 0 1 0
+                                      anchor 0 0 -0.05
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "motor6"
+                                      }
+                                      PositionSensor {
+                                        name "sensor6"
+                                      }
+                                    ]
+                                    endPoint DEF bar6 Solid {
+                                      translation 8.171394925053213e-07 0 -0.09999999999332283
+                                      rotation 0 -0.9999999999999999 0 1.63427903714381e-05
+                                      children [
+                                        HingeJoint {
+                                          jointParameters HingeJointParameters {
+                                            position 0.00126351763626187
+                                            anchor 0 0 -0.05
+                                          }
+                                          device [
+                                            RotationalMotor {
+                                              name "motor7"
+                                            }
+                                            PositionSensor {
+                                              name "sensor7"
+                                            }
+                                          ]
+                                          endPoint DEF bar7 Solid {
+                                            translation 0 6.31758650032897e-05 -0.09999996008808489
+                                            rotation 1 0 0 0.0012635176362914338
+                                            children [
+                                              HingeJoint {
+                                                jointParameters HingeJointParameters {
+                                                  position 2.4272764177936845e-05
+                                                  axis 0 -1 0
+                                                  anchor 0 0 -0.05
+                                                }
+                                                device [
+                                                  RotationalMotor {
+                                                    name "motor8"
+                                                  }
+                                                  PositionSensor {
+                                                    name "sensor8"
+                                                  }
+                                                ]
+                                                endPoint DEF bar8 Solid {
+                                                  translation 1.2136382087776696e-06 0 -0.09999999998527083
+                                                  rotation 0 -1 0 2.4272761224598486e-05
+                                                  children [
+                                                    HingeJoint {
+                                                      jointParameters HingeJointParameters {
+                                                        position 0.004575718431747973
+                                                        axis -1 0 0
+                                                        anchor 0 0 -0.05
+                                                      }
+                                                      device [
+                                                        RotationalMotor {
+                                                          name "motor9"
+                                                        }
+                                                        PositionSensor {
+                                                          name "sensor9"
+                                                        }
+                                                      ]
+                                                      endPoint DEF bar9 Solid {
+                                                        translation 0 -0.00022878512323216635 -0.09999947657093405
+                                                        rotation -1 0 0 0.004575718431763866
+                                                        children [
+                                                          HingeJoint {
+                                                            jointParameters HingeJointParameters {
+                                                              position -2.348900777485957e-05
+                                                              axis 0 1 0
+                                                              anchor 0 0 -0.05
+                                                            }
+                                                            device [
+                                                              RotationalMotor {
+                                                                name "motor10"
+                                                              }
+                                                              PositionSensor {
+                                                                name "sensor10"
+                                                              }
+                                                            ]
+                                                            endPoint DEF bar10 Solid {
+                                                              translation 1.1744503886349808e-06 0 -0.09999999998620664
+                                                              rotation 0 -1 0 2.3489013810477455e-05
+                                                              children [
+                                                                HingeJoint {
+                                                                  jointParameters HingeJointParameters {
+                                                                    position -0.0031103354765306826
+                                                                    anchor 0 0 -0.05
+                                                                  }
+                                                                  device [
+                                                                    RotationalMotor {
+                                                                      name "motor11"
+                                                                    }
+                                                                    PositionSensor {
+                                                                      name "sensor11"
+                                                                    }
+                                                                  ]
+                                                                  endPoint DEF bar11 Solid {
+                                                                    translation 0 -0.00015551652307693584 -0.09999975814552553
+                                                                    rotation -1 0 0 0.0031103354764956195
+                                                                    children [
+                                                                      HingeJoint {
+                                                                        jointParameters HingeJointParameters {
+                                                                          position -8.626730877074775e-06
+                                                                          axis 0 -1 0
+                                                                          anchor 0 0 -0.05
+                                                                        }
+                                                                        device [
+                                                                          RotationalMotor {
+                                                                            name "motor12"
+                                                                          }
+                                                                          PositionSensor {
+                                                                            name "sensor12"
+                                                                          }
+                                                                        ]
+                                                                        endPoint DEF bar12 Solid {
+                                                                          translation -4.313365438483889e-07 0 -0.09999999999813952
+                                                                          rotation 0 1 0 8.626729959074231e-06
+                                                                          children [
+                                                                            HingeJoint {
+                                                                              jointParameters HingeJointParameters {
+                                                                                position 6.818404292582977e-05
+                                                                                axis -1 0 0
+                                                                                anchor 0 0 -0.05
+                                                                              }
+                                                                              device [
+                                                                                RotationalMotor {
+                                                                                  name "motor13"
+                                                                                }
+                                                                                PositionSensor {
+                                                                                  name "sensor13"
+                                                                                }
+                                                                              ]
+                                                                              endPoint DEF bar13 Solid {
+                                                                                translation 0 -3.4092021436498896e-06 -0.09999999988377342
+                                                                                rotation -1 0 0 6.818404033907223e-05
+                                                                                children [
+                                                                                  HingeJoint {
+                                                                                    jointParameters HingeJointParameters {
+                                                                                      position 7.796186483541433e-06
+                                                                                      axis 0 1 0
+                                                                                      anchor 0 0 -0.05
+                                                                                    }
+                                                                                    device [
+                                                                                      RotationalMotor {
+                                                                                        name "motor14"
+                                                                                      }
+                                                                                      PositionSensor {
+                                                                                        name "sensor14"
+                                                                                      }
+                                                                                    ]
+                                                                                    endPoint DEF bar14 Solid {
+                                                                                      translation -3.898093241731232e-07 0 -0.09999999999848054
+                                                                                      rotation 0 1 0 7.796198675984062e-06
+                                                                                      children [
+                                                                                        HingeJoint {
+                                                                                          jointParameters HingeJointParameters {
+                                                                                            position 2.8150232404663494e-06
+                                                                                            anchor 0 0 -0.05
+                                                                                          }
+                                                                                          device [
+                                                                                            RotationalMotor {
+                                                                                              name "motor15"
+                                                                                            }
+                                                                                            PositionSensor {
+                                                                                              name "sensor15"
+                                                                                            }
+                                                                                          ]
+                                                                                          endPoint DEF bar15 Solid {
+                                                                                            translation 0 1.407511620231315e-07 -0.09999999999980187
+                                                                                            rotation 1 0 0 2.8150182700234515e-06
+                                                                                            children [
+                                                                                              DEF cy15 Shape {
+                                                                                                appearance PBRAppearance {
+                                                                                                  baseColor 1 0 0
+                                                                                                  metalness 0
+                                                                                                }
+                                                                                                geometry Cylinder {
+                                                                                                  height 0.1
+                                                                                                  radius 0.01
+                                                                                                }
+                                                                                              }
+                                                                                            ]
+                                                                                            name "bar15"
+                                                                                            boundingObject USE cy15
+                                                                                            physics Physics {
+                                                                                              density 40000
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                        DEF cy14 Shape {
+                                                                                          appearance PBRAppearance {
+                                                                                            baseColor 0.333333 0.333333 1
+                                                                                            metalness 0
+                                                                                          }
+                                                                                          geometry Cylinder {
+                                                                                            height 0.1
+                                                                                            radius 0.01
+                                                                                          }
+                                                                                        }
+                                                                                      ]
+                                                                                      name "bar14"
+                                                                                      boundingObject USE cy14
+                                                                                      physics Physics {
+                                                                                        density 40000
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                  DEF cy13 Shape {
+                                                                                    appearance PBRAppearance {
+                                                                                      baseColor 1 0.333333 0
+                                                                                      metalness 0
+                                                                                    }
+                                                                                    geometry Cylinder {
+                                                                                      height 0.1
+                                                                                      radius 0.01
+                                                                                    }
+                                                                                  }
+                                                                                ]
+                                                                                name "bar13"
+                                                                                boundingObject USE cy13
+                                                                                physics Physics {
+                                                                                  density 40000
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                            DEF cy12 Shape {
+                                                                              appearance PBRAppearance {
+                                                                                baseColor 0 1 1
+                                                                                metalness 0
+                                                                              }
+                                                                              geometry Cylinder {
+                                                                                height 0.1
+                                                                                radius 0.01
+                                                                              }
+                                                                            }
+                                                                          ]
+                                                                          name "bar12"
+                                                                          boundingObject USE cy12
+                                                                          physics Physics {
+                                                                            density 40000
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                      DEF cy11 Shape {
+                                                                        appearance PBRAppearance {
+                                                                          baseColor 1 0 0
+                                                                          metalness 0
+                                                                        }
+                                                                        geometry Cylinder {
+                                                                          height 0.1
+                                                                          radius 0.01
+                                                                        }
+                                                                      }
+                                                                    ]
+                                                                    name "bar11"
+                                                                    boundingObject USE cy11
+                                                                    physics Physics {
+                                                                      density 40000
+                                                                    }
+                                                                  }
+                                                                }
+                                                                DEF cy10 Shape {
+                                                                  appearance PBRAppearance {
+                                                                    baseColor 1 0.333333 0
+                                                                    metalness 0
+                                                                  }
+                                                                  geometry Cylinder {
+                                                                    height 0.1
+                                                                    radius 0.01
+                                                                  }
+                                                                }
+                                                              ]
+                                                              name "bar10"
+                                                              boundingObject USE cy10
+                                                              physics Physics {
+                                                                density 40000
+                                                              }
+                                                            }
+                                                          }
+                                                          DEF cy9 Shape {
+                                                            appearance PBRAppearance {
+                                                              baseColor 0.666667 0 0.498039
+                                                              metalness 0
+                                                            }
+                                                            geometry Cylinder {
+                                                              height 0.1
+                                                              radius 0.01
+                                                            }
+                                                          }
+                                                        ]
+                                                        name "bar9"
+                                                        boundingObject USE cy9
+                                                        physics Physics {
+                                                          density 40000
+                                                        }
+                                                      }
+                                                    }
+                                                    DEF cy8 Shape {
+                                                      appearance PBRAppearance {
+                                                        baseColor 0 1 0.498039
+                                                        metalness 0
+                                                      }
+                                                      geometry Cylinder {
+                                                        height 0.1
+                                                        radius 0.01
+                                                      }
+                                                    }
+                                                  ]
+                                                  name "bar8"
+                                                  boundingObject USE cy8
+                                                  physics Physics {
+                                                    density 40000
+                                                  }
+                                                }
+                                              }
+                                              DEF cy7 Shape {
+                                                appearance PBRAppearance {
+                                                  baseColor 1 0 1
+                                                  metalness 0
+                                                }
+                                                geometry Cylinder {
+                                                  height 0.1
+                                                  radius 0.01
+                                                }
+                                              }
+                                            ]
+                                            name "bar7"
+                                            boundingObject USE cy7
+                                            physics Physics {
+                                              density 40000
+                                            }
+                                          }
+                                        }
+                                        DEF cy6 Shape {
+                                          appearance PBRAppearance {
+                                            baseColor 1 0 0
+                                            metalness 0
+                                          }
+                                          geometry Cylinder {
+                                            height 0.1
+                                            radius 0.01
+                                          }
+                                        }
+                                      ]
+                                      name "bar6"
+                                      boundingObject USE cy6
+                                      physics Physics {
+                                        density 40000
+                                      }
+                                    }
+                                  }
+                                  DEF cy5 Shape {
+                                    appearance PBRAppearance {
+                                      baseColor 0.333333 1 0
+                                      metalness 0
+                                    }
+                                    geometry Cylinder {
+                                      height 0.1
+                                      radius 0.01
+                                    }
+                                  }
+                                ]
+                                name "bar5"
+                                boundingObject USE cy5
+                                physics Physics {
+                                  density 40000
+                                }
+                              }
+                            }
+                            DEF cy4 Shape {
+                              appearance PBRAppearance {
+                                baseColor 0.666667 0.333333 1
+                                metalness 0
+                              }
+                              geometry Cylinder {
+                                height 0.1
+                                radius 0.01
+                              }
+                            }
+                          ]
+                          name "bar4"
+                          boundingObject USE cy4
+                          physics Physics {
+                            density 40000
+                          }
+                        }
+                      }
+                      DEF cy3 Shape {
+                        appearance PBRAppearance {
+                          baseColor 0 1 0.498039
+                          metalness 0
+                        }
+                        geometry Cylinder {
+                          height 0.1
+                          radius 0.01
+                        }
+                      }
+                    ]
+                    name "bar3"
+                    boundingObject USE cy3
+                    physics Physics {
+                      density 40000
+                    }
+                  }
+                }
+                DEF cy2 Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0.333333 0
+                    metalness 0
+                  }
+                  geometry Cylinder {
+                    height 0.1
+                    radius 0.01
+                  }
+                }
+              ]
+              name "bar2"
+              boundingObject USE cy2
+              physics Physics {
+                density 40000
+              }
+            }
+          }
+          DEF cy1 Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.1
+              radius 0.01
+            }
+          }
+        ]
+        name "bar1"
+        boundingObject USE cy1
+        physics Physics {
+          density 40000
+        }
+      }
+    }
+    DEF bd0 Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.01
+      }
+    }
+  ]
+  name "snake"
+  boundingObject USE bd0
+  physics Physics {
+    density 40000
+  }
+  controller "snake_controller"
+  supervisor TRUE
+  linearVelocity 0 3 0
+}
