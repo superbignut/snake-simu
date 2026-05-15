@@ -14,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.44790770189275586 -0.021030444610754224 -0.8938324289175371 3.0021924603070573
-  position 2.5178237000733823 1.4299841093339754 4.80568546183004
+  orientation 0.4479076952635757 -0.021030490376156237 -0.893832431162693 3.002192646555982
+  position 1.594187943964065 0.9593972201913032 3.6332527946966127
 }
 TexturedBackground {
 }
@@ -23,6 +23,24 @@ TexturedBackgroundLight {
 }
 RectangleArena {
   floorSize 6 5
+}
+DEF ball0 Solid {
+  translation -0.69 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball"
+  boundingObject USE ball
+  physics Physics {
+  }
 }
 DEF bar0 Robot {
   translation -1.3800478897083661 0.03438231514912484 0.009586960687763279

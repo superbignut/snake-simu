@@ -15,8 +15,14 @@ robot = Supervisor()
 timestep = int(robot.getBasicTimeStep())
 keyboard = robot.getKeyboard() # 触发键盘检测
 
-print(robot.getBasicTimeStep())
+# print(robot.getBasicTimeStep())
 keyboard.enable(int(robot.getBasicTimeStep()))
+
+# 全局坐标显示球
+ball0 = robot.getFromDef("ball0")
+
+# print(ball0.getPosition())
+
 
 def getMotors()->list[Motor]:
 
@@ -528,16 +534,6 @@ class snakeX:
             self.tupleList[index].go_forward(local_v=np.array([0,0,1]), speedAlpha= 5.0 / np.exp(index)) # 这个alpha 决定了速度的大小
         
     
-    
-    def follow_trajectory(self, traj:list[np.array]):
-        """ 
-            输入方向，计算这个方向的蜿蜒曲线，进而计算运动目标
-        """
-        
-        
-        
-        pass
-    
     def follow_key_board(self):
         """ 
             键盘控制前进方向
@@ -555,21 +551,57 @@ class snakeX:
             self.compute_target_position(targetDirection=direction,timeDelta=1)
         elif key == keyboard.RIGHT:    
             direction = direction2
-            # print("right")
  
             self.compute_target_position(targetDirection=direction,timeDelta=1)
         else:
             # 给一个全局轨迹list，进行follow
+            # 也就是若干个小球的轨迹，每次显示4个，到达一个进行滑动窗口
+            
+            self.compute_target_position
+            
             pass
             
         
+        """     def compute_traj_to_ball(self)-> list[np.array]:
+        # 计算从node0到ball0的轨迹
+        node0Pos = node_list[0].getPosition()
+        ball0Pos = ball0.getPosition()
+        
+        direction = ball0Pos - node0Pos
+        
+        print(node0Pos)
+        print(ball0Pos) """
+        
+        
+    
+    def follow_trajectory(self, traj:list[np.array]):
+        """ 
+            局部规划器：输入全局轨迹，计算这个方向的局部路径曲线，进而进行运动
+            
+        """
+        global_tj = self.compute_global_trajectory()
+        
+
+        pass
+    
+    def compute_global_trajectory(self, targetPosition)->np.array:
+        """ 
+            全局规划器：输入目标点，计算这个方向的全局路径
+            
+            # 先假设全局坐标就只有单一的几个点，试试看
+            
+            # 逐步过渡到三维空间的轨迹追踪(在World中加一个圆柱体)
+        """
+        
+        return np.array([[1,1,1],[2,2,2],[3,3,3]])
+        
+
         
         
     
 ss = snakeX()
 
 targetDirection = np.array([10, -10, 0])
-
 
 
 
@@ -582,6 +614,7 @@ while robot.step(timestep) != -1:
     """
     
     ss.follow_key_board()
+    # ss.follow_trajectory()
     # ss.compute_target_position(targetDirection=targetDirection,timeDelta=0.96)
     
 
