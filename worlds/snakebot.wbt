@@ -25,6 +25,38 @@ RectangleArena {
   floorSize 6 5
 }
 DEF ball0 Solid {
+  translation -0.43 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball"
+  boundingObject USE ball
+}
+DEF ball1 Solid {
+  translation -0.69 -0.26 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball1"
+  boundingObject USE ball
+}
+DEF ball2 Solid {
   translation -0.69 -0.5 0.04
   children [
     DEF ball Shape {
@@ -37,10 +69,104 @@ DEF ball0 Solid {
       }
     }
   ]
-  name "ball"
+  name "ball2"
   boundingObject USE ball
-  physics Physics {
-  }
+}
+DEF ball3 Solid {
+  translation -0.69 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball3"
+  boundingObject USE ball
+}
+DEF ball4 Solid {
+  translation -0.69 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball4"
+  boundingObject USE ball
+}
+DEF ball5 Solid {
+  translation -0.69 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball5"
+  boundingObject USE ball
+}
+DEF ball6 Solid {
+  translation -0.69 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball6"
+  boundingObject USE ball
+}
+DEF ball7 Solid {
+  translation -0.69 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball7"
+  boundingObject USE ball
+}
+DEF ball8 Solid {
+  translation -0.69 -0.5 0.04
+  children [
+    DEF ball Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "ball8"
+  boundingObject USE ball
 }
 DEF bar0 Robot {
   translation -1.3800478897083661 0.03438231514912484 0.009586960687763279

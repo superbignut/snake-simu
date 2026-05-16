@@ -20,6 +20,14 @@ keyboard.enable(int(robot.getBasicTimeStep()))
 
 # 全局坐标显示球
 ball0 = robot.getFromDef("ball0")
+ball1 = robot.getFromDef("ball1")
+ball2 = robot.getFromDef("ball2")
+ball3 = robot.getFromDef("ball3")
+ball4 = robot.getFromDef("ball4")
+ball5 = robot.getFromDef("ball5")
+ball6 = robot.getFromDef("ball6")
+ball7 = robot.getFromDef("ball7")
+ball8 = robot.getFromDef("ball8")
 
 # print(ball0.getPosition())
 
@@ -488,7 +496,37 @@ class tupleX:
         if self.back_motor != None:
             self.back_motor.setPosition(self.targeThetas[1]*timeDelta)
         # 前后模块设定速度
+
+
+
+"""
+    这是一个全局的轨迹显示类，用于在webots中显示全局轨迹坐标
     
+    终点坐标用红球来代替，路径坐标是蓝色的球
+
+"""
+
+class globalPathX:
+    
+    def __init__(self):
+        # 路径，从头到尾
+        self.path = []
+        # 路径球
+        self.destBall = ball0
+        self.pathBall = []
+        self.pathBallNum = 8
+        # 初始化路径球
+        for i in range(1, self.pathBallNum + 1, 1): 
+            pathBallName = f'bar{i}'
+            self.pathBall.append(robot.getFromDef(pathBallName))
+        # 当前位置（起点）
+        self.CurrentPos = np.array([1,2,3])
+        
+    def update(self):
+        # 更新球的显示
+        self.destBall.getField("translation").setSFVec3f([0,0,0]) # setPosition([0,0,0])
+        
+        
 
 class snakeX:
     
@@ -498,6 +536,9 @@ class snakeX:
         self.tupleNums = 8
         # tuple数组
         self.tupleList:list[tupleX] = [tupleX() for _ in range(self.tupleNums)]
+        
+        # 全局轨迹对象，用于保存、显示全局轨迹
+        self.globalTraj = globalPathX()
         
         # 每一个tuple，初始化初始旋转坐标
         for index, _ in enumerate(self.tupleList):
@@ -574,34 +615,46 @@ class snakeX:
         
         
     
-    def follow_trajectory(self, traj:list[np.array]):
+    def follow_trajectory(self, targetPosition):
         """ 
             局部规划器：输入全局轨迹，计算这个方向的局部路径曲线，进而进行运动
-            
+            或者最开始直接直接运动就行
         """
-        global_tj = self.compute_global_trajectory()
-        
-
-        pass
-    
-    def compute_global_trajectory(self, targetPosition)->np.array:
+        self.compute_global_trajectory(targetPosition=targetPosition)
+           
+    def compute_global_trajectory(self, targetPosition):
         """ 
             全局规划器：输入目标点，计算这个方向的全局路径
             
             # 先假设全局坐标就只有单一的几个点，试试看
             
             # 逐步过渡到三维空间的轨迹追踪(在World中加一个圆柱体)
+            
+            # 这里可以直接插值先简单返回
         """
         
-        return np.array([[1,1,1],[2,2,2],[3,3,3]])
+        headPosition = node_list[0].getPosition()
+        
+        direction = targetPosition - headPosition
+        
+        t = np.arange(0, 1, 0.2) # 用于计算步长
+        
+        # self.globalTraj = []
+        
+        for index, item_t in enumerate(t):
+            # pos = t * direction + headPos
+            tmpPos = headPosition + item_t * direction
+            # 
+            self.globalTraj.path.append(tmpPos)
+        self.globalTraj.update()
+        
+        
         
 
-        
-        
     
 ss = snakeX()
 
-targetDirection = np.array([10, -10, 0])
+des = np.array([10, -10, 0])
 
 
 
@@ -613,8 +666,8 @@ while robot.step(timestep) != -1:
     
     """
     
-    ss.follow_key_board()
-    # ss.follow_trajectory()
+    # ss.follow_key_board()
+    ss.follow_trajectory(des)
     # ss.compute_target_position(targetDirection=targetDirection,timeDelta=0.96)
     
 
