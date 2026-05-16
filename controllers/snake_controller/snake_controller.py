@@ -118,6 +118,10 @@ def get_node_pose(num):
     # 返回第i个节点的姿态矩阵
     return node_list[num].getPose()
 
+def get_node_Position(num):
+    # 获取第i个节点的位置坐标
+    return node_list[num].getPosition()
+
 def get_node_pose_3(num):
     # 返回第i个节点的姿态矩阵,只获取旋转矩阵部分 也就是 3*3 的部分
     pose =  node_list[num].getPose()
@@ -509,22 +513,65 @@ class tupleX:
 class globalPathX:
     
     def __init__(self):
-        # 路径，从头到尾
+        # 路径
         self.path = []
-        # 路径球
+        # 终点球
         self.destBall = ball0
+        # 路径球
         self.pathBall = []
+        # 路径球数量
         self.pathBallNum = 8
-        # 初始化路径球
-        for i in range(1, self.pathBallNum + 1, 1): 
-            pathBallName = f'bar{i}'
+        # 路径球初始化
+        for i in range(1, self.pathBallNum + 1): 
+            pathBallName = f'ball{i}'
             self.pathBall.append(robot.getFromDef(pathBallName))
-        # 当前位置（起点）
-        self.CurrentPos = np.array([1,2,3])
         
-    def update(self):
-        # 更新球的显示
-        self.destBall.getField("translation").setSFVec3f([0,0,0]) # setPosition([0,0,0])
+    def update(self, headPos):
+        """ 
+            迭代更新路径
+        
+        """
+        while np.linalg.norm(self.path[0] - headPos) < 0.2:       
+                # print(self.path)
+                # print(np.linalg.norm(self.path[0] - headPos))
+                self.path.pop(0)
+                break
+
+        # 如果坐标数 <= 蓝球数
+        if len(self.path) <= self.pathBallNum:
+            # 设置所有路径的坐标
+            for i in range(len(self.pathBall)):
+                if i < len(self.path) -1:
+                    self.setBallPos(i, pos=self.path[i])
+                else:
+                    self.hideBall(i)
+        else:
+            # 如果大于，则只显示前几个
+            for i in range(len(self.pathBall)):
+                self.setBallPos(i, pos=self.path[i])
+        
+        self.setDesBallPos(pos=self.path[-1])
+        
+        # 返回最近的目标节点
+        return self.getNearestBallPos()
+
+
+    def hideBall(self, i):
+        # 看不见这个球
+        self.setBallPos(i, pos=[-100,-100,-100])
+    
+    def setDesBallPos(self, pos):
+        # 设置红球位置
+        # print("des pos :", pos)
+        self.destBall.getField("translation").setSFVec3f(list(pos)) 
+    
+    def setBallPos(self,i, pos):
+        # 设置蓝球位置
+        self.pathBall[i].getField("translation").setSFVec3f(list(pos)) 
+        
+    def getNearestBallPos(self):
+        return self.path[0]
+        
         
         
 
@@ -600,8 +647,6 @@ class snakeX:
             
             self.compute_target_position
             
-            pass
-            
         
         """     def compute_traj_to_ball(self)-> list[np.array]:
         # 计算从node0到ball0的轨迹
@@ -615,12 +660,18 @@ class snakeX:
         
         
     
-    def follow_trajectory(self, targetPosition):
+    def follow_gloal_trajectory(self):
         """ 
             局部规划器：输入全局轨迹，计算这个方向的局部路径曲线，进而进行运动
             或者最开始直接直接运动就行
         """
-        self.compute_global_trajectory(targetPosition=targetPosition)
+        self.globalTraj.update(headPos=get_node_Position(1))
+        
+        print("nearest target: ", self.globalTraj.getNearestBallPos())
+        
+
+        
+        # self.compute_global_trajectory(targetPosition=targetPosition)
            
     def compute_global_trajectory(self, targetPosition):
         """ 
@@ -637,26 +688,36 @@ class snakeX:
         
         direction = targetPosition - headPosition
         
-        t = np.arange(0, 1, 0.2) # 用于计算步长
+        t = np.arange(0, 1, 0.1) # 用于计算步长
         
         # self.globalTraj = []
         
         for index, item_t in enumerate(t):
-            # pos = t * direction + headPos
+
             tmpPos = headPosition + item_t * direction
-            # 
-            self.globalTraj.path.append(tmpPos)
-        self.globalTraj.update()
-        
+
+            self.globalTraj.path = list(self.bezier_curve(headPosition, headPosition + np.array([-1, -1, 0]),  targetPosition + np.array([-1, -2, 0]), targetPosition))
+            
+ 
+    def bezier_curve(self, p0, p1, p2, p3, num_points=10):
+        """
+            三次贝塞尔曲线, p0起点, p3终点, p1/p2控制点
+        """
+        t = np.linspace(0, 1, num_points)
+        t = t[:, None] # t.shape = 10 * 1
+        # p.shape = 1* 3
+        curve = (1-t)**3 * p0 + 3*(1-t)**2*t * p1 + 3*(1-t)*t**2 * p2 + t**3 * p3
+        # 
+        return curve
         
         
 
     
 ss = snakeX()
 
-des = np.array([10, -10, 0])
+des = np.array([1, -1, 0])
 
-
+ss.compute_global_trajectory(targetPosition=des)
 
 while robot.step(timestep) != -1:
     """
@@ -665,9 +726,10 @@ while robot.step(timestep) != -1:
         这个归一化的运动方向是相对于 snake头节点来说的
     
     """
+    ss.follow_gloal_trajectory()
     
     # ss.follow_key_board()
-    ss.follow_trajectory(des)
+    
     # ss.compute_target_position(targetDirection=targetDirection,timeDelta=0.96)
     
 
