@@ -29,6 +29,19 @@ ball6 = robot.getFromDef("ball6")
 ball7 = robot.getFromDef("ball7")
 ball8 = robot.getFromDef("ball8")
 
+# 局部坐标显示方块
+
+box0 = robot.getFromDef("box0")
+box1 = robot.getFromDef("box1")
+box2 = robot.getFromDef("box2")
+box3 = robot.getFromDef("box3")
+box4 = robot.getFromDef("box4")
+box5 = robot.getFromDef("box5")
+box6 = robot.getFromDef("box6")
+box7 = robot.getFromDef("box7")
+
+print("box7, ", box0.getPosition())
+
 # print(ball0.getPosition())
 
 
@@ -514,7 +527,7 @@ class tupleX:
 """
 
 class globalPathX:
-    
+    # 这里假设有一个默认的全局路径
     def __init__(self):
         # 路径
         self.path = []
@@ -531,27 +544,32 @@ class globalPathX:
         
     def update(self):
         """ 
-            迭代更新路径
+            迭代更新路径， 更新之前需要先初始化self.path
         
         """
         # 头节点坐标
         headPos = get_head_position()
         
+        # 判断是否到达最近的目标点
         while np.linalg.norm(self.path[0] - headPos) < 0.2:       
                 # 计算是否到达坐标点，到达则弹出
                 self.path.pop(0)
                 break
+        # 到达重点        
+        if self.isFinished():
+            print("Global Destination has finished.")
+            return
 
-        # 如果坐标数 <= 蓝球数
         if len(self.path) <= self.pathBallNum:
-            # 设置所有路径的坐标
+            # 如果坐标数 <= 蓝球数
             for i in range(len(self.pathBall)):
+                # 设置所有路径的坐标
                 if i < len(self.path) -1:
                     self.setBallPos(i, pos=self.path[i])
                 else:
                     self.hideBall(i)
         else:
-            # 如果大于，则只显示前几个
+            # 如果坐标数大于球数，则只显示前几个
             for i in range(len(self.pathBall)):
                 self.setBallPos(i, pos=self.path[i])
         
@@ -559,7 +577,9 @@ class globalPathX:
         
         # 返回最近的目标节点
         return self.getNearestBallPos()
-
+    
+    def isFinished(self):
+        return len(self.path) == 0
 
     def hideBall(self, i):
         # 看不见这个球
@@ -580,18 +600,114 @@ class globalPathX:
 
 """ 
     全局坐标有一个问题就是, snake 只能纯粹的follow,灵活性很差 我这里是不是可以做一个
-    局部规划器, 在两个全局坐标点之间, 生成一个局部轨（二维：一个曲线、三维：一个圆）
+    局部规划器, 在两个全局坐标点之间, 生成一个局部轨（二维：一个曲线、三维：一个圆, 或者大于直径就行其实）
     然后做到snake的运动不是直直的，而是具有一定wind的snake-like曲线
     
     并且这里还可以考虑到，sanke-like的body能增加body的宽度，有更好的平衡性和稳定性
 """
 class localPathX:
-    def __init__(self):
-        pass
+    # 在全局路径的默认的情况下，局部路径感觉要更动态一点
+    # 可以每走一步更新一下，也可以一个全局节点更新一下
+    # 暂时按照一个目标节点一次更新来做吧
+    def __init__(self, globalPath:globalPathX):
+        # 路径
+        self.path = []
+        # 路径块集合
+        self.pathBox = []
+        # 路径块数量
+        self.pathBoxNum = 8
+        # 局部轨迹需要知道当前的全局轨迹
+        self.globalPathX = globalPath
+        
+        # 路径块初始化
+        for i in range(self.pathBoxNum): 
+            pathBoxName = f'box{i}'
+            self.pathBox.append(robot.getFromDef(pathBoxName))
+            
+        self.flag = 1
+        
+        
+        
+    def compute_local_path(self):
+        """
+            根据 globalPathX 计算出局部坐标, 更新到path中
+        """
+        
+        headPosition = node_list[0].getPosition()        
+        
+        targetPosition = self.globalPathX.path[0]
+        
+        t = np.arange(0, 1, 0.1) # 用于计算步长
+        
+        # p1 是控制点，用于控制局部路径的弯曲程度
+        if self.flag == 1:
+            p1 = (np.array(headPosition)*1.5 + targetPosition * 1.5) / 2 
+        else:
+            p1 = (np.array(headPosition)*0.7 + targetPosition * 0.7) / 2 
+        
+        
+        self.path = bezier_curve_2(p0=headPosition, p1=p1, p2=targetPosition)
+        
+        self.flag *= -1
+        
+        
+
     
+    def update(self):
+        # 更新局部坐标显示
+        # 如果到达了最后一个局部坐标，则触发一次计算
+        headPos = get_head_position()
         
+        # 如果全局坐标空了，则局部也结束
+        if self.globalPathX.isFinished():
+            print("is finished")
+            return
         
+        if len(self.path) == 0:
+            # 这里是因为最开始可能是空的
+            self.compute_local_path()
+            # print("is finished")
+            return self.update()
         
+        while np.linalg.norm(self.path[0] - headPos) < 0.05:
+            # 计算是否到达坐标点，到达则弹出
+            self.path.pop(0)
+            break
+        
+        if len(self.path) == 0:
+            # 如果路径空了，则需要重新拉去一个
+            # 如果这里是每次强制计算，则就是最大频率的局部坐标计算
+            self.compute_local_path()
+            # print("is finished")
+            return self.update()
+
+        # 如果坐标数 <= box数
+        if len(self.path) <= self.pathBoxNum:
+            # 设置所有路径的坐标
+            for i in range(len(self.pathBox)):
+                if i < len(self.path):
+                    self.setBoxPos(i, pos=self.path[i])
+                else:
+                    self.hideBox(i)
+        else:
+            # 如果大于，则只显示前几个
+            for i in range(len(self.pathBox)):
+                self.setBoxPos(i, pos=self.path[i])
+                
+        return self.getNearestBoxPos()
+    
+    
+    def hideBox(self, i):
+        # 看不见这个box
+        self.setBoxPos(i, pos=[-100,-100,-100])
+    
+    def setBoxPos(self, i, pos):
+        # 设置路径box位置
+        self.pathBox[i].getField("translation").setSFVec3f(list(pos)) 
+        
+    def getNearestBoxPos(self):
+        # 返回最近的一个局部路径的坐标
+        return self.path[0]
 
 class snakeX:
     
@@ -604,6 +720,9 @@ class snakeX:
         
         # 全局轨迹对象，用于保存、显示全局轨迹
         self.globalTraj = globalPathX()
+        
+        # 局部轨迹对象，传入全局轨迹
+        self.localTraj = localPathX(globalPath=self.globalTraj)
         
         # 每一个tuple，初始化初始旋转坐标
         for index, _ in enumerate(self.tupleList):
@@ -637,27 +756,23 @@ class snakeX:
         for index in range(len(self.tupleList)):
             self.tupleList[index].update(timeDelta=timeDelta)
             
-            self.tupleList[index].go_forward(local_v=np.array([0,0,1]), speedAlpha= 5.0 / np.exp(index)) # 这个alpha 决定了速度的大小
+            self.tupleList[index].go_forward(local_v=np.array([0,0,1]), speedAlpha= 6.0 / np.exp(index)) # 这个alpha 决定了速度的大小
         
     
     def follow_key_board(self):
         """ 
             键盘控制前进方向
         """
-        
-        # direction = np.array([14, -4, 0]) 
         direction1 = np.array([10, -10, 0])
         direction2 = np.array([-10, -10, 0])
         
         key = keyboard.getKey()
         
         if key == keyboard.LEFT:
-            # print("left")
             direction = direction1
             self.compute_target_position(targetDirection=direction,timeDelta=1)
         elif key == keyboard.RIGHT:    
             direction = direction2
- 
             self.compute_target_position(targetDirection=direction,timeDelta=1)
 
     
@@ -666,15 +781,17 @@ class snakeX:
             局部规划器：输入全局轨迹，计算这个方向的局部路径曲线，进而进行运动
             或者最开始直接直接运动就行
         """
-        # 迭代更新轨迹的显示，不可去除
-        nearestTargetPosition = self.globalTraj.update()
+        # 迭代返回最近的全局坐标点
+        nearestGloablTargetPosition = self.globalTraj.update()
         
-        self.compute_target_position(targetDirection=nearestTargetPosition - get_head_position(),timeDelta=1)
+        # 迭代返回最近的局部坐标点
+        nearestLocalTargetPosition = self.localTraj.update()
         
-        print("nearest target: ", nearestTargetPosition)
+        # 朝着目标点运动
+        self.compute_target_position(targetDirection=nearestLocalTargetPosition - get_head_position(),timeDelta=1)
         
+        # print("nearest target: ", nearestGloablTargetPosition)
 
-        
         # self.compute_global_trajectory(targetPosition=targetPosition)
            
     def compute_global_trajectory(self, targetPosition):
@@ -699,22 +816,30 @@ class snakeX:
 
             tmpPos = headPosition + item_t * direction
 
-            self.globalTraj.path = list(self.bezier_curve(headPosition, headPosition + np.array([-1, -1, 0]),  targetPosition + np.array([-1, -2, 0]), targetPosition))
+            self.globalTraj.path = bezier_curve_3(headPosition, headPosition + np.array([-1, -1, 0]),  targetPosition + np.array([-1, -2, 0]), targetPosition)
             
  
-    def bezier_curve(self, p0, p1, p2, p3, num_points=10):
-        """
-            三次贝塞尔曲线, p0起点, p3终点, p1/p2控制点
-        """
-        t = np.linspace(0, 1, num_points)
-        t = t[:, None] # t.shape = 10 * 1
-        # p.shape = 1* 3
-        curve = (1-t)**3 * p0 + 3*(1-t)**2*t * p1 + 3*(1-t)*t**2 * p2 + t**3 * p3
-        # 
-        return curve
-        
-        
+def bezier_curve_3(p0, p1, p2, p3, num_points=10):
+    """
+        3次贝塞尔曲线, p0起点, p3终点, p1/p2控制点
+    """
+    t = np.linspace(0, 1, num_points)
+    t = t[:, None] # t.shape = 10 * 1
+    # p.shape = 1* 3
+    curve = (1-t)**3 * p0 + 3*(1-t)**2*t * p1 + 3*(1-t)*t**2 * p2 + t**3 * p3
+    # 
+    return list(curve)
 
+def bezier_curve_2(p0, p1, p2, num_points=10):
+    """
+        2次贝塞尔曲线, p0起点, p3终点, p1控制点
+    """
+    t = np.linspace(0, 1, num_points)
+    t = t[:, None] # t.shape = 10 * 1
+    # p.shape = 1* 3
+    curve = (1-t)**2 * p0 + 2*(1-t)*t * p1 + t**2 * p2
+    # 
+    return list(curve)
     
 ss = snakeX()
 
