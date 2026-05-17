@@ -118,7 +118,7 @@ def get_node_pose(num):
     # 返回第i个节点的姿态矩阵
     return node_list[num].getPose()
 
-def get_node_Position(num):
+def get_node_position(num):
     # 获取第i个节点的位置坐标
     return node_list[num].getPosition()
 
@@ -132,6 +132,9 @@ def get_node_pose_3(num):
     
     return pose_3x3
 
+def get_head_position():
+    # 获取头节点坐标
+    return get_node_position(1)
 
 class tupleX:
     # 这是一个snake机器人的两个关节的组合，由于snake关节之间使用正交连接,
@@ -526,14 +529,16 @@ class globalPathX:
             pathBallName = f'ball{i}'
             self.pathBall.append(robot.getFromDef(pathBallName))
         
-    def update(self, headPos):
+    def update(self):
         """ 
             迭代更新路径
         
         """
+        # 头节点坐标
+        headPos = get_head_position()
+        
         while np.linalg.norm(self.path[0] - headPos) < 0.2:       
-                # print(self.path)
-                # print(np.linalg.norm(self.path[0] - headPos))
+                # 计算是否到达坐标点，到达则弹出
                 self.path.pop(0)
                 break
 
@@ -571,6 +576,19 @@ class globalPathX:
         
     def getNearestBallPos(self):
         return self.path[0]
+    
+
+""" 
+    全局坐标有一个问题就是, snake 只能纯粹的follow,灵活性很差 我这里是不是可以做一个
+    局部规划器, 在两个全局坐标点之间, 生成一个局部轨（二维：一个曲线、三维：一个圆）
+    然后做到snake的运动不是直直的，而是具有一定wind的snake-like曲线
+    
+    并且这里还可以考虑到，sanke-like的body能增加body的宽度，有更好的平衡性和稳定性
+"""
+class localPathX:
+    def __init__(self):
+        pass
+    
         
         
         
@@ -641,33 +659,19 @@ class snakeX:
             direction = direction2
  
             self.compute_target_position(targetDirection=direction,timeDelta=1)
-        else:
-            # 给一个全局轨迹list，进行follow
-            # 也就是若干个小球的轨迹，每次显示4个，到达一个进行滑动窗口
-            
-            self.compute_target_position
-            
-        
-        """     def compute_traj_to_ball(self)-> list[np.array]:
-        # 计算从node0到ball0的轨迹
-        node0Pos = node_list[0].getPosition()
-        ball0Pos = ball0.getPosition()
-        
-        direction = ball0Pos - node0Pos
-        
-        print(node0Pos)
-        print(ball0Pos) """
-        
-        
+
     
     def follow_gloal_trajectory(self):
         """ 
             局部规划器：输入全局轨迹，计算这个方向的局部路径曲线，进而进行运动
             或者最开始直接直接运动就行
         """
-        self.globalTraj.update(headPos=get_node_Position(1))
+        # 迭代更新轨迹的显示，不可去除
+        nearestTargetPosition = self.globalTraj.update()
         
-        print("nearest target: ", self.globalTraj.getNearestBallPos())
+        self.compute_target_position(targetDirection=nearestTargetPosition - get_head_position(),timeDelta=1)
+        
+        print("nearest target: ", nearestTargetPosition)
         
 
         
@@ -681,7 +685,6 @@ class snakeX:
             
             # 逐步过渡到三维空间的轨迹追踪(在World中加一个圆柱体)
             
-            # 这里可以直接插值先简单返回
         """
         
         headPosition = node_list[0].getPosition()
@@ -717,6 +720,7 @@ ss = snakeX()
 
 des = np.array([1, -1, 0])
 
+# 计算全局轨迹
 ss.compute_global_trajectory(targetPosition=des)
 
 while robot.step(timestep) != -1:
@@ -726,6 +730,7 @@ while robot.step(timestep) != -1:
         这个归一化的运动方向是相对于 snake头节点来说的
     
     """
+    # follow 全局轨迹
     ss.follow_gloal_trajectory()
     
     # ss.follow_key_board()
