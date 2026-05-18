@@ -14,8 +14,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4479076952635757 -0.021030490376156237 -0.893832431162693 3.002192646555982
-  position 1.594187943964065 0.9593972201913032 3.6332527946966127
+  orientation 0.4479076779560327 -0.021030482842152833 -0.8938324400129259 3.00219261062706
+  position 1.5580925854079148 0.9506668615614757 3.5847654354485563
 }
 TexturedBackground {
 }
@@ -23,6 +23,118 @@ TexturedBackgroundLight {
 }
 RectangleArena {
   floorSize 6 5
+}
+DEF box0 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box0"
+}
+DEF box1 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box1"
+}
+DEF box2 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box2"
+}
+DEF box3 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box3"
+}
+DEF box4 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box4"
+}
+DEF box5 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box5"
+}
+DEF box6 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box6"
+}
+DEF box7 Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 1 0
+        metalness 0.01
+      }
+      geometry Box {
+        size 0.03 0.03 0.03
+      }
+    }
+  ]
+  name "box7"
 }
 DEF ball0 Solid {
   translation -0.43 -0.5 0.04
@@ -727,4 +839,21 @@ DEF bar0 Robot {
   controller "snake_controller"
   supervisor TRUE
   linearVelocity 0 3 0
+}
+DEF tree Solid {
+  translation -1.4 -0.6 0
+  children [
+    DEF tree-shape Shape {
+      appearance PBRAppearance {
+        baseColor 0.666667 0.333333 0
+        metalness 0.01
+      }
+      geometry Cylinder {
+        height 4
+        radius 0.1
+      }
+    }
+  ]
+  name "tree"
+  boundingObject USE tree-shape
 }

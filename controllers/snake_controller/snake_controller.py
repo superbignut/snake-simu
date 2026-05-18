@@ -818,6 +818,20 @@ class snakeX:
 
             self.globalTraj.path = bezier_curve_3(headPosition, headPosition + np.array([-1, -1, 0]),  targetPosition + np.array([-1, -2, 0]), targetPosition)
             
+            
+    def generate_global_traj_on_tree(self, targetPosition):
+        # 这里的轨迹暂时是手动生成的
+        
+        self.globalTraj.path = [np.array([-1.36,-0.18,0.04]), 
+                    np.array([-1.36,-0.46,0.04]), 
+                    np.array([-1.36,-0.46,0.3]), 
+                    np.array([-1.36,-0.46,0.6]), 
+                    np.array([-1.36,-0.46,0.9]), 
+                    np.array([-1.36,-0.46,1.2]), 
+                    np.array([-1.36,-0.46,1.5]), 
+                    np.array([-1.36,-0.46,1.8])]  
+        
+            
  
 def bezier_curve_3(p0, p1, p2, p3, num_points=10):
     """
@@ -846,7 +860,11 @@ ss = snakeX()
 des = np.array([1, -1, 0])
 
 # 计算全局轨迹
-ss.compute_global_trajectory(targetPosition=des)
+# ss.compute_global_trajectory(targetPosition=des)
+ss.generate_global_traj_on_tree(targetPosition=des)
+
+
+
 
 while robot.step(timestep) != -1:
     """
